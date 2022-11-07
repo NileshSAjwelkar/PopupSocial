@@ -1,0 +1,36 @@
+
+<div class="d-flex flex-row-reverse">
+  <a href="/posts/new" style="padding-left: 10px;">
+    <input type="button" name="newPost" value="New Post">
+  </a>
+  <a href="/posts">
+    <input type="button" name="listPosts" value="List Post">
+  </a>
+</div>
+
+<% if @posts.blank? %>
+  No posts yet.
+  <a href="/posts/new">
+    <input type="button" name="commit" value="Create Post" data-disable-with="Create Post">
+  </a>  
+<% else %>
+
+<% @posts.each do |post| %>
+  <!-- Post preview-->
+  <div class="post-preview">
+      <a href=<%= "/posts/#{post.id}" %>>
+          <h2 class="post-title"><%= post.title %></h2>
+          <h3 class="post-subtitle"><%= post.content.to_s.truncate(50) %></h3>
+      </a>
+      <p class="post-meta">
+          Posted by
+          <a href="#!"><%= post.user.username %></a>
+          <%= time_ago_in_words(post.created_at) %> ago
+      </p>
+  </div>
+  <!-- Divider-->
+  <hr class="my-4" />
+<% end %>
+
+
+<% end %>

@@ -1,0 +1,63 @@
+<h1>Sign Up</h1>
+
+<%#= render 'form', user: @user %>
+
+<%#= link_to 'Back', users_path %>
+
+
+<!-- <form>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form> -->
+
+
+
+<%= form_with model: @user, url: sign_up_path do |form| %>
+  <%= render partial: "shared/form_errors", locals: { object: form.object } %>
+  <div>
+    <%= form.label :first_name, class: 'form-label' %>
+    <%= form.text_field :first_name, required: true, class: 'form-control' %>
+  </div>
+  <div>
+    <%= form.label :last_name, class: 'form-label' %>
+    <%= form.text_field :last_name, required: true, class: 'form-control' %>
+  </div>  
+  <div>
+    <%= form.label :username, class: 'form-label' %>
+    <%= form.text_field :username, required: true, class: 'form-control' %>
+  </div>
+  <div>
+    <%= form.label :email, class: 'form-label' %>
+    <%= form.email_field :email, required: true, class: 'form-control' %>
+  </div>
+  <div>
+    <%= form.label :password, class: 'form-label' %>
+    <%= form.password_field :password, required: true, class: 'form-control' %>
+  </div>
+  <div>
+    <%= form.label :password_confirmation, class: 'form-label' %>
+    <%= form.password_field :password_confirmation, required: true, class: 'form-control' %>
+  </div>
+  <div>
+    <%= form.label :status, class: 'form-label', class: 'form-label' %><br/>
+
+    <%= form.label :status_public, 'Public', class: 'form-label' %>
+    <%= form.radio_button :status, 'public', :checked => true%>
+
+    <%= form.label :status_private, 'Private', class: 'form-label' %>
+    <%= form.radio_button :status, 'private' %>
+  </div>
+  <%= form.submit "Sign Up" %>
+<% end %>

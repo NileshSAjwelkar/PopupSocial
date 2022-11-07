@@ -1,0 +1,61 @@
+<% if user_signed_in? %>
+  <h1 class="fw-bolder">Your Details</h1>
+  <p>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </p>
+
+  <p>
+    <strong>First name:</strong>
+    <%= @user.first_name %>
+  </p>
+
+  <p>
+    <strong>Last name:</strong>
+    <%= @user.last_name %>
+  </p>
+
+  <% if @user.uploads.blank? %>
+    No uploads found
+  <% else %>
+    <strong>Your Uploads</strong>
+    <% @user.uploads.each do |file| %>
+      <br/>
+      <% if file.variable? %>
+        <%= image_tag file.variant(resize: "400x400") %>
+      <% elsif file.previewable? %>
+        <%= image_tag file.preview(resize: "400x400"), rails_blob_path(file, disposition: :attachment) %>
+      <% else %>
+        <%= link_to file.filename, rails_blob_path(file, disposition: :attachment) %>
+      <% end %>
+      <a href=<%= "/user/#{@user.id}/upload/#{file.id}/" %> data-method="post">Share As Post</a>
+    <% end %>
+  <% end %>
+
+
+ <%= form_with(model: @user, local: true) do |form| %>
+   <% if @user.errors.any? %>
+     <div id="error_explanation">
+       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+       <ul>
+         <% @user.errors.full_messages.each do |message| %>
+           <li><%= message %></li>
+         <% end %>
+       </ul>
+     </div>
+   <% end %>
+
+   <div class="field">
+     <%= form.label :uploads %>
+     <%= form.file_field :uploads, multiple: true %>
+   </div>
+
+   <div class="actions">
+     <%= form.submit %>
+   </div>
+ <% end %>
+
+<% else %>
+  No User Logged In.
+<% end %>

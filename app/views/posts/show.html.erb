@@ -1,0 +1,31 @@
+<div class="d-flex flex-row-reverse">
+  <a href="/posts/new" style="padding-left: 10px;">
+    <input type="button" name="newPost" value="New Post">
+  </a>
+  <a href="/posts">
+    <input type="button" name="listPosts" value="List Post">
+  </a>
+</div>
+  <strong>Title : </strong><%= @post.title %><br/><br/>
+
+  <strong>Content : </strong><br/><%= @post.content %><br/><br/>
+
+  <strong>Tags : </strong><br/><%= @post.tag_list.join(", ") %><br/><br/>
+  
+  <% if @post.upload.present? %>
+    <strong>Uploads : </strong><br/>
+    <%= image_tag url_for(@post.upload) %><br/><br/>
+  <% end %>  
+
+  <small>Submitted <%= time_ago_in_words(@post.created_at) %> ago</small><br/><br/>
+
+  <h3>Comments</h3>
+
+    <%= form_for [@post, Comment.new] do |f| %>
+      <%= f.text_field :body, placeholder: "Add a comment", class: 'form-control'  %><br/>
+      <%= f.submit "Add Comment" %>
+    <% end %>
+
+  <ul>
+    <%= render @post.comments %>
+  </ul>
