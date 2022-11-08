@@ -24,7 +24,10 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
-    redirect_to root_path, notice: "Signed out."
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: "Signed out." }
+      format.json { render :new, status: :deleted}
+    end
   end
 
   def new

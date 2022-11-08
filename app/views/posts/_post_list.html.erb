@@ -1,0 +1,23 @@
+
+
+
+<% if posts.blank? %>
+  No posts yet.
+<% else %>
+  <% posts.each do |post| %>
+    <!-- Post preview-->
+    <div class="post-preview">
+        <a href=<%= "/posts/#{post.id}" %>>
+            <h2 class="post-title"><%= post.title %></h2>
+            <h3 class="post-subtitle"><%= post.content.to_s.truncate(50) %></h3>
+        </a>
+        <p class="post-meta">
+            Posted by
+            <a href=<%= "users/#{post.user.id}" %>><%= post.user.username %></a>
+            <%= time_ago_in_words(post.created_at) %> ago
+        </p>
+    </div>
+    <!-- Divider-->
+    <hr class="my-4" />
+  <% end %>
+<% end %>

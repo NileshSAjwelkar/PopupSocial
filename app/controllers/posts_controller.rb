@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[show edit update destroy ]
 
   def index
     @posts = Post.all
   end
 
   def show
-    @users = User.all
+    @user_mentions = find_mentions(@post) rescue []
   end
 
   def new
@@ -44,7 +44,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def search
+    user = User.find_by(username: params["search_string"])  
+    @posts = user.posts
+  end
+
   private
+    def find_mentions(post)
+      m = CustomMentionProcessor.new
+      m.process_mentions(post)
+    end
+  
     def set_post
       @post = Post.find(params[:id])
     end

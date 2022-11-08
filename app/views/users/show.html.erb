@@ -1,5 +1,3 @@
-
-
 <p>
   <strong>Email:</strong>
   <%= @user.email %>
@@ -15,5 +13,21 @@
   <%= @user.last_name %>
 </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<p>
+  <% if @user.uploads.blank? %>
+    No uploads found
+  <% else %>
+    <strong>Your Uploads</strong>
+    <% @user.uploads.each do |file| %>
+      <br/>
+      <% if file.variable? %>
+        <%= image_tag file.variant(resize: "400x400") %>
+      <% elsif file.previewable? %>
+        <%= image_tag file.preview(resize: "400x400"), rails_blob_path(file, disposition: :attachment) %>
+      <% else %>
+        <%= link_to file.filename, rails_blob_path(file, disposition: :attachment) %>
+      <% end %>
+      <a href=<%= "/user/#{@user.id}/upload/#{file.id}/" %> data-method="post">Share As Post</a>
+    <% end %>
+  <% end %>
+</p>  

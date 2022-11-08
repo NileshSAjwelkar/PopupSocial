@@ -21,6 +21,11 @@
     <%= form.text_field :content, required: true, class: 'form-control'  %>
   </div>
 
+  <% if post.upload.present? %>
+    <strong>Uploads : </strong><br/>
+    <%= image_tag url_for(@post.upload), style: 'height:150px;width:150px;margin-bottom:10px;' %><br/><br/>
+  <% end %> 
+
   <div class="field">
     <%= form.label :upload, class: 'form-label'  %>
     <%= form.file_field :upload %>
